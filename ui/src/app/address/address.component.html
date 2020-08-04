@@ -1,0 +1,49 @@
+<h2>New AddressBook form</h2>
+<form #addressBookForm="ngForm" (ngSubmit)="createAddress(addressBookForm)">
+
+  <label for="type">Type</label>
+  <select name="type" required #typeOfAddress="ngModel" ngModel placeholder="Please select" [(ngModel)]="newAddressBook.type">
+    <option [ngValue]="null">Please select</option>
+    <option *ngFor="let item of types">{{item}}</option>
+  </select>
+  <small *ngIf="typeOfAddress.invalid">Please select a type</small>
+  <form-field>
+    <label for="Address">Address</label>
+    <input type="text" #name="ngModel" ngModel
+           required
+           minlength="5"
+           [(ngModel)]="newAddress.name" name="address">
+    <small *ngIf="name.invalid">Please fill Address name</small>
+    <error *ngIf="form.get('addressIde').errors?.serverError">
+      {{ form.get('firstName').errors?.serverError }}
+    </error>
+    </form-field>
+      <button type="submit" [disabled]="addressBookForm.invalid">Add address</button>
+</form>
+
+<h2>Address list</h2>
+
+<table spacing="0">
+  <thead>
+    <tr>
+      <th>FirstName</th>
+	  <th>SurtName</th>
+	    <th>DateOfBirth</th>
+		 <th>Email</th>
+      
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let address of addresses|async">
+      <td>{{address.firstName}}</td>
+      <td>{{address.surName}}</td>
+	  <td>{{address.dateOfBirth}}</td>
+	  <td>{{address.wmail}}</td>
+      <td>
+        <a [routerLink]="['/address', address.addressId]">Open</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
